@@ -6,11 +6,13 @@ import Sidenav from './Sidenav.vue';
 import Navbar from './Navbar.vue';
 import CollectionButton from './CollectionButton.vue';
 import SearchBar from './SearchBar.vue';
+import Popover from './Popover.vue';
 
 Vue.component('side-nav', Sidenav);
 Vue.component('nav-bar', Navbar);
 Vue.component('collection-btn', CollectionButton);
 Vue.component('search-bar', SearchBar);
+Vue.component('popover', Popover);
 
 document.addEventListener('DOMContentLoaded', () => {
   document.body.appendChild(document.createElement('hello'));

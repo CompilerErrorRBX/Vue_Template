@@ -1,8 +1,8 @@
 <template>
-    <div class="side-bar grey-text text-darken-2" :class="{ active: isOpen }">
+    <div class="side-bar grey-text text-darken-2" :class="{ active: isOpen, closed: isClosedLargeScreen }">
       <div class="tool-bar">
         <ul class="horizontal left">
-          <collection-btn icon="arrow_back" :clickAction="toggleSidebar" />
+          <collection-btn icon="arrow_back" @click.stop="closeSidebar" />
         </ul>
         <ul class="horizontal right">
           <slot name="tool-bar"></slot>
@@ -20,9 +20,14 @@
 
 <script>
   export default {
-    props: ['projectName', 'isOpen', 'toggleSidebar'],
+    props: ['projectName', 'isOpen', 'isClosedLargeScreen'],
     data() {
       return {
+      }
+    },
+    methods: {
+      closeSidebar() {
+        this.$parent.closeSidebar();
       }
     }
   }

@@ -1,8 +1,8 @@
 <template>
   <nav :class="{ fixed: isFixed }">
-    <div class="nav-wrapper flex flex-row" :class="primaryColor">
+    <div class="nav-wrapper flex flex-row" :class="colorPalette.primary">
       <ul class="horizontal">
-        <collection-btn icon="menu" :clickAction="toggleSidebar" />
+        <collection-btn icon="menu" @click.stop="toggleSidebar"/>
       </ul>
       <a class="title" href="#">{{ projectName }}</a>
       <div class="flex flex-md">
@@ -20,9 +20,14 @@
 
 <script>
   export default {
-    props: ['projectName', 'primaryColor', 'toggleSidebar', 'isFixed'],
+    props: ['projectName', 'colorPalette', 'isFixed'],
     data() {
       return {
+      }
+    },
+    methods: {
+      toggleSidebar() {
+        this.$parent.toggleSidebar();
       }
     }
   }
