@@ -1,34 +1,36 @@
 <template>
-  <li class="collection-btn" :class="{ circle: !text }" @click="onClick" v-on-click-outside="closeDropdown"> 
-    <a class="waves-effect waves-light" :href="href">
+  <li class="collection-btn waves-effect" :class="{ circle: !text }" @click="onClick" v-on-click-outside="closeDropdown"> 
+    <a :href="href">
       <i class="material-icons">{{ icon }}</i>
-      <span v-show="text">{{ text }}</span>
+      <span v-if="text">{{ text }}</span>
       <slot></slot>
     </a>
-    <popover class="grey-text text-darken-1" v-if="type === 'dropdown'" :opened="isDropdownOpen">
+    <popover v-if="type === 'dropdown'" :settings="dropDownSettings">
       <slot name="popover"></slot>
     </popover>
   </li>
 </template>
 
 <script>
-  import { mixin as onClickOutside } from 'vue-on-click-outside'
-
   export default {
-    mixins: [onClickOutside],
     props: ['href', 'icon', 'text', 'type'],
     data() {
       return {
-        isDropdownOpen: false,
+        dropDownSettings: { opened: false, event: null },
       };
     },
     methods: {
       onClick(event) {
         this.$emit('click', event);
-        this.isDropdownOpen = !this.isDropdownOpen;
+        this.dropDownSettings = { opened: !this.dropDownSettings.opened, event: event };
       },
       closeDropdown() {
-        this.isDropdownOpen = false;
+        this.dropDownSettings = { opened: false, event: null };
+      }
+    },
+    computed: {
+      colorPalette() {
+        return this.$root.colorPalette;
       }
     }
   }

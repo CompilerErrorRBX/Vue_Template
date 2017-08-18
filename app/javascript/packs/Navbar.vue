@@ -20,7 +20,7 @@
 
 <script>
   export default {
-    props: ['projectName', 'colorPalette', 'isFixed'],
+    props: ['projectName', 'isFixed'],
     data() {
       return {
       }
@@ -28,6 +28,11 @@
     methods: {
       toggleSidebar() {
         this.$parent.toggleSidebar();
+      }
+    },
+    computed: {
+      colorPalette() {
+        return this.$root.colorPalette;
       }
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="popover"
-    :class="{ active: opened, right: isRightSide, bottom: isBottomSide }"
+    :class="{ active: settings.opened, right: isRightSide, bottom: isBottomSide }"
     :style="{ top: top, left: left}"
     @click.stop>
     <div class="popover-grow"></div>
@@ -12,7 +12,7 @@
 
 <script>
   export default {
-    props: ['opened'],
+    props: ['settings'],
     data() {
       return {
         top: '0',
@@ -22,38 +22,44 @@
       };
     },
     mounted: function() { 
-      document.body.appendChild(this.$el);
+      $('body').prepend(this.$el);
     },
     watch: {
-      opened: {
-        handler: function(val, oldVal) {
-            this.calculatePosition();
-        },
-        deep: true
+      settings(val) {
+        this.calculatePosition(val.event);
       } 
     },
     methods: {
-      calculatePosition() {
+      calculatePosition(event) {
+        if (event === null || !this.settings.opened) return;
         const $window = $('body');
-        const $parent = $(this.$parent.$el);
         const $popover = $(this.$el);
 
-        const position = $parent.offset();
+        let top = event.pageY;
+        let left = event.pageX;
 
-        let top = position.top + $parent.height() / 2;
-        let left = position.left + $parent.width() / 2;
+        this.isBottomSide = false;
+        this.isRightSide = false;
 
-        if (top > $window.height() / 2) {
-          top = position.top - $popover.height() + $parent.height() / 2;
+        if (top + $popover.height() > $window.height()) {
+          top -= $popover.height();
           this.isBottomSide = true;
         }
-        if (left > $window.width() / 2) {
-          left = position.left - $popover.width() + $parent.width() / 2;
+        if (left + $popover.width() > $window.width()) {
+          left -= $popover.width();
           this.isRightSide = true;
         }
 
+        top = Math.max(Math.min(top, $window.height() - $popover.height()), 0)
+        left = Math.max(Math.min(left, $window.width() - $popover.width()), 0)
+
         this.top = `${top}px`;
         this.left = `${left}px`;
+      }
+    },
+    computed: {
+      colorPalette() {
+        return this.$root.colorPalette;
       }
     }
   }

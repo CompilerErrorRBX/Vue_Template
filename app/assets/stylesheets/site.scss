@@ -117,8 +117,6 @@ body {
       .title {
         display: none;
         padding: 16px 0 0 24px;
-        font-size: 1.8rem;
-        color: rgba(0, 0, 0, 0.55);
         @include respond-to(not-large-screen) {
           display: block;
         }
@@ -152,7 +150,6 @@ body {
     padding-left: 8px;
     font-size: 0.9rem;
     font-weight: bold;
-    color: rgba(0, 0, 0, 0.55)
   }
   &.small {
     height: 34px;
@@ -178,9 +175,7 @@ nav {
     padding: 0 8px;
     .title {
       position: relative;
-      color: inherit;
       margin: 0 36px 0 16px;
-      font-size: 1.8rem;
     }
     #profile-options {
       padding: 0 4px 0 32px;
@@ -219,6 +214,7 @@ ul {
   color: inherit;
   li.collection-btn {
     color: inherit;
+    display: block;
     a {
       display: block;
       color: inherit;
@@ -311,7 +307,8 @@ ul {
       }
       &>a>span.badge {
         padding: 0;
-        transform: translateY(50%);
+        border-radius: 11px;
+        min-width: 1.5rem;
         &:empty {
           display: none;
         }
@@ -341,7 +338,7 @@ ul {
 }
 
 .popover {
-  position: absolute;
+  position: fixed;
   border-radius: 2px;
   z-index: 10000;
   overflow: hidden;
@@ -499,7 +496,18 @@ ul.comment-container {
 
 .title {
   color: inherit;
+  padding: 0 0 0 0.5rem;
   font-size: 1.8rem;
+}
+
+.subtitle {
+  @extend .title;
+  font-size: 1.3rem;
+}
+
+small.subtitle {
+  color: rgba(0,0,0,0.35);
+  font-size: 0.8rem;
 }
 
 .border {
@@ -534,6 +542,12 @@ ul.comment-container {
   border-radius: 50%;
 }
 
+.card {
+  .card-body {
+    padding: 8px 0;
+  }
+}
+
 #ticket-container {
   margin: 0 auto;
   .grid-sizer {
@@ -545,18 +559,27 @@ ul.comment-container {
 .ticket {
   width: 240px;
   margin: 8px;
-  transition: top 0.3s, left 0.3s, width 0.3s, transform 0.3s, box-shadow 0.5s;
+  transition: top 0.5s, left 0.5s, width 0.5s, transform 0.5s, box-shadow 0.5s;
+  background-color: transparent;
+  cursor: pointer;
+
   &.selected {
-    top: 50% !important;
     left: 50% !important;
     min-width: 240px;
     max-width: 1240px;
-    width: 80%;
+    width: 70%;
     transform: translateX(-50%);
     z-index: 1000;
-    @extend %z-depth-5;
-    transition: top 0.3s, left 0.3s, width 0.3s, transform 0.3s, box-shadow 0.5s, opacity steps(1) 0.5s;
+    transition: top 0.5s, left 0.5s, width 0.5s, transform 0.5s, box-shadow 0.5s, z-index steps(1) 0.5s;
   }
+}
+
+.thumbnail {
+  max-width: 256px;
+  width: 256px;
+  padding-top: 100%;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 %scrollbar-helper {
@@ -580,7 +603,7 @@ ul.comment-container {
 }
 
 %z-depth-0 {
-  box-shadow: 0;
+  box-shadow: none !important;
 }
 
 %z-depth-1 {

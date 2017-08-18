@@ -1,5 +1,5 @@
 <template>
-    <div class="side-bar grey-text text-darken-2" :class="{ active: isOpen, closed: isClosedLargeScreen }">
+    <div class="side-bar grey-text text-darken-2" :class="{ active: isClosed, closed: isClosedLargeScreen }">
       <div class="tool-bar">
         <ul class="horizontal left">
           <collection-btn icon="arrow_back" @click.stop="closeSidebar" />
@@ -20,14 +20,20 @@
 
 <script>
   export default {
-    props: ['projectName', 'isOpen', 'isClosedLargeScreen'],
+    props: ['projectName', 'isClosed', 'isClosedLargeScreen'],
     data() {
       return {
+        colorPalette: {},
       }
     },
     methods: {
       closeSidebar() {
         this.$parent.closeSidebar();
+      }
+    },
+    watch: {
+      colorPalette() {
+        return this.$root.colorPalette;
       }
     }
   }
